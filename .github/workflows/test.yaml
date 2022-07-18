@@ -1,0 +1,32 @@
+name: Test
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "2 4 * * Fri" # Min Hour day month week (Fridays at 4:02)
+jobs:
+  test:
+    if: github.event_name != 'pull_request' || github.head_ref != 'devel'
+    strategy:
+      matrix:
+        python: [3.6, 3.7, 3.8, 3.9, 3.10]
+    name: py${{ matrix.python }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: setup
+        run: |
+          pip install poetry && pip install .
+      - name: test
+        run: python -m pytest --cov=finjet
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
+        env:
+          # coveralls needs explicit token
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
