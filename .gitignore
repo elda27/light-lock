@@ -1,0 +1,6 @@
+.venv
+.pytest_cache
+.vscode
+__pycache__
+.coverage
+.light-lock.db

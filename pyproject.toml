@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "light-lock"
+version = "0.1.0"
+description = "A simple named-semaphore using sqlite3."
+authors = ["elda27 <kaz.birdstick@gmail.com>"]
+license = "Apache 2.0"
+readme = "README.md"
+packages = [{include = "light_lock"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+rich = "^12.5.1"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.6.0"
+pytest = "^7.1.2"
+mypy = "^0.961"
+pytest-cov = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.coverage.run]
+omit = [
+  "light_lock/__main__.py",
+  "light_lock/_main.py" 
+]
