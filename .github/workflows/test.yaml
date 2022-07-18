@@ -9,7 +9,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.head_ref != 'devel'
     strategy:
       matrix:
-        python: [3.6, 3.7, 3.8, 3.9, 3.10]
+        python: ["3.6", "3.7", "3.8", "3.9", "3.10"]
     name: py${{ matrix.python }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -18,11 +18,12 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python }}
-      - name: setup
-        run: |
-          pip install poetry && pip install .
+      - name: setup poetry
+        run: pip install poetry
+      - name: setup python
+        run: pip install .
       - name: test
-        run: python -m pytest --cov=finjet
+        run: python -m pytest --cov=light_lock
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
