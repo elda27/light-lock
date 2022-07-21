@@ -18,10 +18,8 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python }}
-      - name: setup poetry
-        run: pip install poetry
-      - name: setup python
-        run: pip install .
+      - name: setup python packages
+        run: pip install -r requirements.txt
       - name: test
         run: python -m pytest --cov=light_lock
       - name: Upload coverage to Codecov
