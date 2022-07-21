@@ -1,3 +1,4 @@
+import pytest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from light_lock.lock import lock_main
@@ -7,6 +8,12 @@ from light_lock.free import free_main
 from light_lock import sqlite_utils as utils
 from uuid import uuid4
 
+@pytest.mark.parametrize(
+    "main", [(lock_main,),(release_main,),(status_main,),(free_main,)]
+)
+def test_error_for_in_memory_db(main):
+    with pytest.raises(Exception):
+        main(table_name=":memory:", count=0, file=Path("/"), id="")
 
 def test_lock_main():
     with TemporaryDirectory() as dirname:
